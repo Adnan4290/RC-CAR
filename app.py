@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response
 # from camera_stream import gen_frames
 from input_handler import handle_input
 from flask_socketio import SocketIO, send, emit
-
+## add code for multi camera
 app = Flask(__name__)
 app.debug=True
 socketio = SocketIO(app)
