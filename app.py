@@ -1,18 +1,17 @@
 from flask import Flask, render_template, Response
-# from camera_stream import gen_frames
+from camera_stream import gen_frames
 from input_handler import handle_input
 from flask_socketio import SocketIO, send, emit
-
+## add code for multi camera
 app = Flask(__name__)
 app.debug=True
 socketio = SocketIO(app)
+## custom tunnel for vnc command
+# pitunnel --port=5900 --name=VNCTunnel --persist
 
-latitude = None
-longitude = None
-
-# @app.route('/video_feed')
-# def video_feed():
-    # return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/control', methods=['POST'])
 def control():

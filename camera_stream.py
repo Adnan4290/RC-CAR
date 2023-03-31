@@ -1,22 +1,17 @@
-import picamera
-import io
 import cv2
-
-
-camera = picamera.PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-stream = io.BytesIO()
-# camera.start_preview()
-
+import numpy as np
+import io
 
 def gen_frames():
+    cap = cv2.VideoCapture(0)
     while True:
-        success, frame = cv2.VideoCapture(0)
-        if not success:
+        ret, frame = cap.read()
+        if not ret:
             break
         else:
+            # encode the frame as JPEG
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    cap.release()
