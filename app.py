@@ -2,11 +2,13 @@ from flask import Flask, render_template, Response
 from camera_stream import gen_frames
 from input_handler import handle_input
 from flask_socketio import SocketIO, send, emit
-import atexit
+import atexit,cv2
 app = Flask(__name__)
 app.debug=True
 socketio = SocketIO(app)
 
+latitude=None
+longitude=None
 # Release the camera when the Flask app is shut down
 def release_camera():
     global cap
