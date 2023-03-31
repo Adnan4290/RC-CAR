@@ -1,0 +1,79 @@
+/* Set the background color and center the content */
+body {
+    background-color: #642424;
+    text-align: center;
+  }
+  
+  /* Style the video stream and canvas */
+  #video-stream, #video-canvas {
+    display: block;
+    margin: 0 auto;
+    border: 5px solid white;
+  }
+  
+  /* Style the control buttons */
+  #controls {
+    display: inline-block;
+    margin-top: 30px;
+  }
+  
+  #up, #down, #left, #right {
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: transparent;
+    color: white;
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    line-height: 56px;
+    margin: 0 20px;
+  }
+  
+  #up {
+    margin-bottom: 25px;
+  }
+  
+  /* Style the message box */
+  #message {
+    font-size: 2rem;
+    color: white;
+  }
+  
+  /* Make the page responsive for mobile devices */
+  @media only screen and (max-width: 768px) {
+    #video-stream, #video-canvas {
+      width: 80vw;
+      height: auto;
+    }
+  }
+  /* --------------------- */
+  #map-container {
+    height: 400px;
+  }
+  
+  #map {
+    height: 100%;
+  }
+  #switch-camera-btn {
+    background-color: #4CAF50; /* set background color */
+    border: none; /* remove border */
+    color: white; /* set text color */
+    padding: 10px 20px; /* increase padding */
+    text-align: center; /* center text */
+    text-decoration: none; /* remove underline */
+    display: inline-block; /* display as inline-block */
+    font-size: 16px; /* increase font size */
+    border-radius: 4px; /* add rounded corners */
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2); /* add shadow */
+  }
+  
+  #switch-camera-btn:hover {
+    background-color: #3e8e41; /* change background color on hover */
+    cursor: pointer; /* add pointer cursor on hover */
+  }
+  #name{
+    color: white;
+  }
+  
+  
+  
