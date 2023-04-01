@@ -1,27 +1,32 @@
 import picamera
 import io
 import cv2
+import threading
 
 
-camera = picamera.PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-stream = io.BytesIO()
-camera.start_recording(stream, format='h264')
+class FrameGenerator(threading.Thread):
+    def __init__(self, camera):
+        super().__init__()
+        self.camera = camera
+        self.stream = io.BytesIO()
+        self.camera.start_recording(self.stream, format='h264')
+
+    def run(self):
+        while True:
+            frame = self.stream.read()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
-def gen_frames():
-    while True:
-        # Read the next frame from the stream
-        stream.seek(0)
-        data = stream.read()
-        frame = bytearray(data)
+def main():
+    camera = picamera.PiCamera()
+    camera.resolution = (640, 480)
+    camera.framerate = 30
+    generator = FrameGenerator(camera)
+    generator.start()
+    for frame in generator:
+        print(frame)
 
-        # Convert the frame to a format that OpenCV can handle
-        img = cv2.imdecode(np.frombuffer(frame, dtype=np.uint8), 1)
-        ret, buffer = cv2.imencode('.jpg', img)
-        frame = buffer.tobytes()
 
-        # Yield the frame to the client
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+if __name__ == '__main__':
+    main()

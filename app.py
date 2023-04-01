@@ -1,5 +1,5 @@
 from flask import Flask, render_template, Response
-from camera_stream import gen_frames
+from camera_stream import FrameGenerator
 from input_handler import handle_input
 from flask_socketio import SocketIO, send, emit
 
@@ -10,9 +10,16 @@ socketio = SocketIO(app)
 latitude = None
 longitude = None
 
+camera = picamera.PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 30
+generator = FrameGenerator(camera)
+generator.start()
+
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(generator.run(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 @app.route('/control', methods=['POST'])
 def control():
