@@ -19,5 +19,4 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + stream.getvalue() + b'\r\n')
     finally:
         camera.close()
-        camera.stop_preview()
-        camera.destroyAllWindows()
+       
